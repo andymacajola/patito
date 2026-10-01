@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b9e39a">
+  <title>¡Feliz cumple, Pato!</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --leaf: #235b3a;
+      --leaf-soft: #4d7653;
+      --lime: #b9e39a;
+      --purple: #765895;
+      --purple-dark: #604879;
+      --purple-edge: #493651;
+      --sun: #ffd82f;
+      --yellow: #ffc247;
+      --orange: #e98334;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--leaf);
+      background-color: var(--lime);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    main {
+      display: flex;
+      min-height: 100vh;
+      min-height: 100svh;
+      flex-direction: column;
+      align-items: center;
+      padding: clamp(12px, 2vh, 22px) 16px 8px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 3px;
+      color: var(--leaf-soft);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 700;
+      line-height: .91;
+    }
+
+    h1 span { display: block; }
+
+    .subtitle {
+      margin: 10px 0 12px;
+      color: var(--leaf-soft);
+      font-size: clamp(15px, 2vw, 19px);
+      font-weight: 600;
+    }
+
+    .cake-scene {
+      position: relative;
+      width: min(620px, 96vw, calc((100svh - 237px) * 1.0588235));
+      aspect-ratio: 540 / 510;
+      flex: 0 0 auto;
+      margin-top: 1px;
+      animation: arrive 700ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .cake-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .icing-text {
+      fill: #ffdc35;
+      stroke: #d3a612;
+      stroke-linejoin: round;
+      stroke-width: 1.5px;
+      paint-order: stroke fill;
+      filter: url(#letter-shadow);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 29px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .games-section,
+    .sudoku-section {
+      width: min(900px, 100%);
+      margin-inline: auto;
+    }
+
+    .games-section {
+      margin-top: clamp(32px, 7vh, 68px);
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--leaf);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 5vw, 42px);
+      line-height: 1.1;
+    }
+
+    .game-launchers {
+      display: grid;
+      width: min(720px, 100%);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 20px auto 0;
+    }
+
+    .game-launcher {
+      display: flex;
+      min-width: 0;
+      min-height: 154px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 10px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.28);
+      color: var(--leaf);
+      font: inherit;
+      text-align: center;
+    }
+
+    .game-launcher:not(:disabled) {
+      cursor: pointer;
+      transition: transform 160ms ease, background-color 160ms ease;
+    }
+
+    .game-launcher:not(:disabled):hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,.52);
+    }
+
+    .game-launcher:focus-visible,
+    .symbol-option:focus-visible,
+    .sudoku-cell:focus-visible,
+    .game-action:focus-visible,
+    .lasagna-bite:focus-visible {
+      outline: 3px solid #235b3a;
+      outline-offset: 3px;
+    }
+
+    .game-art {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .game-title {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .game-action {
+      padding: 5px 15px;
+      border-radius: 6px;
+      background: var(--purple-dark);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .game-launcher:disabled {
+      color: #526858;
+      cursor: not-allowed;
+      opacity: .62;
+    }
+
+    .coming-soon {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .sudoku-section {
+      margin-top: clamp(44px, 9vh, 84px);
+      padding: 30px 0 50px;
+      border-top: 2px solid rgba(35,91,58,.28);
+      scroll-margin-top: 20px;
+    }
+
+    .sudoku-intro {
+      margin: 8px 0 22px;
+      color: var(--leaf-soft);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .sudoku-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 360px) minmax(220px, 300px);
+      align-items: start;
+      justify-content: center;
+      gap: clamp(20px, 4vw, 36px);
+    }
+
+    .sudoku-board {
+      display: grid;
+      width: min(100%, 360px);
+      aspect-ratio: 1;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      overflow: hidden;
+      border: 3px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.25);
+    }
+
+    .sudoku-cell {
+      display: grid;
+      min-width: 0;
+      aspect-ratio: 1;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      border-right: 1px solid rgba(73,54,81,.45);
+      border-bottom: 1px solid rgba(73,54,81,.45);
+      background: rgba(255,255,255,.25);
+      color: #302d2b;
+      cursor: pointer;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: clamp(25px, 5.5vw, 38px);
+      line-height: 1;
+    }
+
+    .sudoku-cell:nth-child(4n) { border-right: 0; }
+    .sudoku-cell:nth-child(n+13) { border-bottom: 0; }
+    .sudoku-cell.box-right { border-right: 3px solid var(--purple-edge); }
+    .sudoku-cell.box-bottom { border-bottom: 3px solid var(--purple-edge); }
+
+    .sudoku-cell.is-given {
+      background: rgba(255,255,255,.46);
+      cursor: default;
+    }
+
+    .sudoku-cell.is-selected { box-shadow: inset 0 0 0 3px var(--purple-dark); }
+    .sudoku-cell.is-correct { background: #d8efc8; }
+    .sudoku-cell.is-incorrect { background: #f2c5bd; }
+
+    .sudoku-controls {
+      min-width: 0;
+      text-align: left;
+    }
+
+    .picker-prompt {
+      margin: 0 0 10px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .symbol-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .symbol-option {
+      display: flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 9px;
+      padding: 8px 10px;
+      border: 1px solid var(--purple-edge);
+      border-radius: 7px;
+      background: rgba(255,255,255,.4);
+      color: #302d2b;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .symbol-option span:first-child {
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .sudoku-actions { margin-top: 16px; }
+
+    .primary-action,
+    .replay-action {
+      min-height: 44px;
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--purple-dark);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin: 12px 0 0;
+      color: var(--leaf);
+      font-weight: 700;
+    }
+
+    .win-panel {
+      margin-top: 14px;
+      padding: 16px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.38);
+      text-align: center;
+    }
+
+    .win-panel h3 { margin: 0 0 6px; }
+    .win-panel p { margin: 0 0 12px; }
+
+    .lasagna-reward {
+      max-width: 430px;
+      margin: 18px auto 0;
+      padding-top: 16px;
+      border-top: 1px solid rgba(73,54,81,.3);
+    }
+
+    .lasagna-message {
+      margin: 0 0 8px;
+      color: var(--leaf);
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .lasagna-bite {
+      width: min(280px, 100%);
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .lasagna-bite:disabled { cursor: default; }
+
+    .lasagna-stage {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    .lasagna-art {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .lasagna-bite-pop {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 7px 12px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 20px;
+      background: #fff2b8;
+      color: #5c3a2b;
+      font-size: 15px;
+      font-weight: 900;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(5px) scale(.85) rotate(4deg);
+    }
+
+    .lasagna-bite-pop.is-bouncing {
+      animation: bite-pop 800ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .lasagna-status {
+      margin: 0;
+      color: var(--leaf-soft);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .lasagna-finished {
+      margin: 10px 0 0;
+      color: var(--leaf);
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    @keyframes bite-pop {
+      0% { opacity: 0; transform: translateY(7px) scale(.75) rotate(4deg); }
+      22% { opacity: 1; transform: translateY(-8px) scale(1.08) rotate(-5deg); }
+      72% { opacity: 1; transform: translateY(-17px) scale(1) rotate(3deg); }
+      100% { opacity: 0; transform: translateY(-24px) scale(.94) rotate(0); }
+    }
+
+    [hidden] { display: none !important; }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(18px) scale(.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 520px) {
+      main { padding: clamp(14px, 3vh, 24px) 12px 8px; }
+      h1 { font-size: clamp(42px, 11vw, 60px); }
+      .subtitle { max-width: 320px; margin: 10px 0; }
+      .cake-scene { width: min(600px, 98vw, calc((100svh - 185px) * 1.0588235)); }
+      .icing-text { font-size: 30px; }
+      .game-launchers { grid-template-columns: 1fr; max-width: 360px; }
+      .game-launcher { min-height: 128px; }
+      .sudoku-layout { grid-template-columns: minmax(0, 360px); }
+      .sudoku-controls { text-align: center; }
+      .symbol-options { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .symbol-option { min-height: 58px; flex-direction: column; justify-content: center; gap: 3px; padding: 6px 3px; font-size: 12px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Hoy se celebra en grande</p>
+    <h1><span>¡Feliz</span><span>cumple, Pato!</span></h1>
+    <p class="subtitle">Que tu día esté lleno de risas, pastel y cosas bonitas.</p>
+
+    <section class="cake-scene" aria-label="Pastel morado de cumpleaños con un pato amarillo">
+      <svg class="cake-art" viewBox="0 0 540 510" role="img" aria-label="Pastel redondo morado con letras amarillas y un pato sonriente">
+        <title>Pastel de cumpleaños de Pato</title>
+        <defs>
+          <linearGradient id="cake-side" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#594269" />
+            <stop offset=".2" stop-color="#76598c" />
+            <stop offset=".48" stop-color="#9273a5" />
+            <stop offset=".78" stop-color="#745487" />
+            <stop offset="1" stop-color="#503a61" />
+          </linearGradient>
+          <radialGradient id="cake-top" cx="43%" cy="28%" r="78%">
+            <stop offset="0" stop-color="#896da0" />
+            <stop offset=".58" stop-color="#755b8d" />
+            <stop offset="1" stop-color="#604875" />
+          </radialGradient>
+          <linearGradient id="piping" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#b49ac8" />
+            <stop offset=".42" stop-color="#8a6aa3" />
+            <stop offset="1" stop-color="#624674" />
+          </linearGradient>
+          <radialGradient id="duck-body" cx="38%" cy="27%" r="78%">
+            <stop offset="0" stop-color="#f7d75c" />
+            <stop offset=".72" stop-color="#edbc38" />
+            <stop offset="1" stop-color="#dca12e" />
+          </radialGradient>
+          <pattern id="frosting-speckles" width="31" height="27" patternUnits="userSpaceOnUse">
+            <circle cx="5" cy="8" r="1.2" fill="#d6c5df" opacity=".13" />
+            <circle cx="22" cy="19" r="1" fill="#382844" opacity=".12" />
+          </pattern>
+          <clipPath id="top-clip"><ellipse cx="270" cy="215" rx="240" ry="175" /></clipPath>
+          <filter id="cake-shadow" x="-20%" y="-30%" width="140%" height="170%">
+            <feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#30402e" flood-opacity=".22" />
+          </filter>
+          <filter id="letter-shadow" x="-15%" y="-30%" width="130%" height="160%">
+            <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#342340" flood-opacity=".38" />
+          </filter>
+          <path id="top-curve" d="M 82 180 C 120 18, 420 18, 458 180" />
+          <g id="piped-shell">
+            <path d="M-25 12 C-24 0 -18-14 -7-20 C1-29 14-22 18-11 C25-2 25 7 23 15 C14 8 7 9 0 17 C-8 9-15 8-25 12Z" fill="url(#piping)" stroke="#51395f" stroke-width="2.5" />
+            <path d="M-16 3 C-13-6 -8-13-2-17 M-5 9 C-2 0 3-9 8-17 M7 10 C12 2 15-4 16-10" fill="none" stroke="#d0bddb" stroke-linecap="round" stroke-width="2.4" opacity=".62" />
+          </g>
+        </defs>
+        <ellipse cx="270" cy="475" rx="242" ry="24" fill="#392a43" opacity=".19" />
+        <path d="M30 215 C30 319 132 389 270 389 C408 389 510 319 510 215 L510 337 C510 420 408 475 270 475 C132 475 30 420 30 337Z" fill="url(#cake-side)" stroke="#4b365c" stroke-linejoin="round" stroke-width="7" filter="url(#cake-shadow)" />
+        <path d="M36 355 C47 402 119 438 180 449" fill="none" stroke="#b89dca" stroke-linecap="round" stroke-width="5" opacity=".16" />
+        <g aria-hidden="true">
+          <use href="#piped-shell" transform="translate(58 351) rotate(-29) scale(.48 .54)" />
+          <use href="#piped-shell" transform="translate(80 384) rotate(-22) scale(.58 .65)" />
+          <use href="#piped-shell" transform="translate(112 416) rotate(-17) scale(.7 .76)" />
+          <use href="#piped-shell" transform="translate(151 441) rotate(-11) scale(.82 .87)" />
+          <use href="#piped-shell" transform="translate(197 459) rotate(-6) scale(.93 .95)" />
+          <use href="#piped-shell" transform="translate(247 466) rotate(-2) scale(1 .98)" />
+          <use href="#piped-shell" transform="translate(297 466) rotate(2) scale(1 .98)" />
+          <use href="#piped-shell" transform="translate(347 459) rotate(6) scale(.93 .95)" />
+          <use href="#piped-shell" transform="translate(393 441) rotate(11) scale(.82 .87)" />
+          <use href="#piped-shell" transform="translate(432 416) rotate(17) scale(.7 .76)" />
+          <use href="#piped-shell" transform="translate(464 384) rotate(22) scale(.58 .65)" />
+          <use href="#piped-shell" transform="translate(482 351) rotate(29) scale(.48 .54)" />
+        </g>
+        <ellipse cx="270" cy="215" rx="240" ry="175" fill="url(#cake-top)" stroke="#4b365c" stroke-width="8" />
+        <rect x="28" y="38" width="484" height="350" fill="url(#frosting-speckles)" clip-path="url(#top-clip)" />
+        <ellipse cx="270" cy="215" rx="233" ry="168" fill="none" stroke="#c4afd2" stroke-width="2" opacity=".2" />
+        <g class="icing-text">
+          <text><textPath href="#top-curve" text-anchor="middle" startOffset="50%">ES MI CUMPLE</textPath></text>
+          <text x="270" y="316" text-anchor="middle">HAGAN LO QUE</text>
+          <text x="270" y="348" text-anchor="middle">YO DIGO</text>
+        </g>
+        <g class="duck-art" transform="translate(195 137) scale(.76) rotate(-3 100 100)" filter="url(#letter-shadow)">
+          <path d="M55 174 C55 187 64 198 75 198 C86 198 93 187 93 174Z" fill="#d47c35" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M107 174 C107 187 114 198 125 198 C136 198 143 187 143 174Z" fill="#d47c35" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M100 8 C54 8 24 37 20 76 C17 85 7 96 5 109 C3 121 8 131 17 135 C28 139 36 131 39 120 C42 130 36 138 25 140 A75 46 0 0 0 175 140 C164 138 158 130 161 120 C164 131 172 139 183 135 C192 131 197 121 195 109 C193 96 183 85 180 75 C174 37 145 8 100 8Z" fill="url(#duck-body)" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M31 108 C22 105 15 111 16 119 C16 124 19 128 25 130 M169 108 C178 105 185 111 184 119 C184 124 181 128 175 130" fill="none" stroke="#9d762e" stroke-linecap="round" stroke-width="6" />
+          <circle cx="68" cy="64" r="6" fill="#32120f" />
+          <circle cx="132" cy="64" r="6" fill="#32120f" />
+          <ellipse cx="100" cy="83" rx="23" ry="11" fill="#d77a1e" stroke="#3b1512" stroke-width="6" />
+          <path d="M48 119 L106 108 Q100 125 78 138 C66 143 56 138 49 131Z" fill="#b9c0c1" stroke="#3b1512" stroke-linejoin="round" stroke-width="7" />
+          <path d="M50 118 L29 124 L30 138 L53 133Z" fill="#302d2b" stroke="#3b1512" stroke-linejoin="round" stroke-width="6" />
+          <path d="M48 119 L46 134" fill="none" stroke="#3b1512" stroke-width="6" />
+          <path d="M61 120 L94 112" fill="none" stroke="#e1e5e3" stroke-linecap="round" stroke-width="3" />
+        </g>
+      </svg>
+    </section>
+
+    <section class="games-section" aria-labelledby="games-heading">
+      <h2 class="section-title" id="games-heading">¿Quieres jugar?</h2>
+      <div class="game-launchers">
+        <button class="game-launcher" id="launch-sudoku" type="button" aria-controls="panda-duck-game">
+          <span class="game-art" aria-hidden="true"><span>🐼</span><span>🦆</span></span>
+          <span class="game-title">El reto del Panda y el Pato</span>
+          <span class="game-action">Jugar</span>
+        </button>
+        <button class="game-launcher" type="button" disabled>
+          <span class="game-art" aria-hidden="true">🃏</span>
+          <span class="game-title">Memoria de cumpleaños</span>
+          <span class="coming-soon">Próximamente</span>
+        </button>
+        <button class="game-launcher" type="button" disabled>
+          <span class="game-art" aria-hidden="true">🎁</span>
+          <span class="game-title">Adivina el regalo</span>
+          <span class="coming-soon">Próximamente</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="sudoku-section" id="panda-duck-game" aria-labelledby="sudoku-heading">
+      <h2 class="section-title" id="sudoku-heading">El reto del Panda y el Pato</h2>
+      <p class="sudoku-intro">Completa filas, columnas y cuadros 2×2 sin repetir símbolos.</p>
+      <div class="sudoku-layout">
+        <div class="sudoku-board" id="sudoku-board" role="group" aria-label="Tablero de Sudoku de cuatro por cuatro"></div>
+        <div class="sudoku-controls">
+          <div class="symbol-picker" id="symbol-picker" hidden>
+            <p class="picker-prompt" id="picker-prompt">Elige un símbolo</p>
+            <div class="symbol-options" id="symbol-options">
+              <button class="symbol-option" type="button" data-symbol="panda" aria-label="Elegir panda"><span aria-hidden="true">🐼</span><span>Panda</span></button>
+              <button class="symbol-option" type="button" data-symbol="duck" aria-label="Elegir pato"><span aria-hidden="true">🦆</span><span>Pato</span></button>
+              <button class="symbol-option" type="button" data-symbol="star" aria-label="Elegir estrella"><span aria-hidden="true">⭐</span><span>Estrella</span></button>
+              <button class="symbol-option" type="button" data-symbol="cake" aria-label="Elegir pastel"><span aria-hidden="true">🎂</span><span>Pastel</span></button>
+            </div>
+          </div>
+          <div class="sudoku-actions">
+            <button class="primary-action" id="check-sudoku" type="button">Comprobar</button>
+          </div>
+          <p class="feedback" id="sudoku-feedback" role="status" aria-live="polite"></p>
+          <div class="win-panel" id="win-panel" hidden>
+            <h3>¡Lo lograste! 🎉</h3>
+            <p>Completaste el reto del Panda y el Pato.</p>
+            <div class="lasagna-reward" id="lasagna-reward" hidden>
+              <p class="lasagna-message">¡Te ganaste tu lasaña! Porque un reto así se merece un buen premio. 🍝</p>
+              <button class="lasagna-bite" id="lasagna-bite" type="button" aria-label="Comer un bocado de lasaña" aria-describedby="lasagna-status">
+                <span class="lasagna-stage">
+                  <svg class="lasagna-art" viewBox="0 0 280 180" role="img" aria-label="Porción de lasaña en un plato">
+                    <title>Lasaña de premio</title>
+                    <defs>
+                      <clipPath id="lasagna-mask"><rect id="lasagna-clip" x="37" y="28" width="206" height="112" /></clipPath>
+                      <linearGradient id="lasagna-pasta" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#ffe58c" />
+                        <stop offset="1" stop-color="#e9a943" />
+                      </linearGradient>
+                      <linearGradient id="lasagna-sauce" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#a93f30" />
+                        <stop offset="1" stop-color="#d76b3c" />
+                      </linearGradient>
+                    </defs>
+                    <ellipse cx="140" cy="143" rx="103" ry="19" fill="#5b4b61" opacity=".18" />
+                    <ellipse cx="140" cy="132" rx="101" ry="24" fill="#f8f0d8" stroke="#624879" stroke-width="4" />
+                    <ellipse cx="140" cy="130" rx="82" ry="15" fill="#e6d9bb" stroke="#b6a987" stroke-width="2" />
+                    <g clip-path="url(#lasagna-mask)">
+                      <path d="M54 68 L187 43 Q201 41 211 54 L231 78 L89 105 L54 94Z" fill="#a94432" stroke="#65352b" stroke-linejoin="round" stroke-width="4" />
+                      <path d="M89 105 L231 78 L231 107 L91 133 L65 121 L54 94Z" fill="#b84932" stroke="#65352b" stroke-linejoin="round" stroke-width="4" />
+                      <path d="M63 70 L187 47 Q200 45 207 55 L219 72 L89 96 L61 88Z" fill="url(#lasagna-pasta)" stroke="#74432b" stroke-linejoin="round" stroke-width="3" />
+                      <path d="M89 103 L229 77 L229 84 L90 111Z" fill="#f3dfb0" stroke="#74432b" stroke-linejoin="round" stroke-width="2" />
+                      <path d="M90 112 L230 86 L230 94 L91 120Z" fill="#e5a346" stroke="#74432b" stroke-linejoin="round" stroke-width="2" />
+                      <path d="M91 121 L230 96 L230 103 L92 130Z" fill="#f3dfb0" stroke="#74432b" stroke-linejoin="round" stroke-width="2" />
+                      <path d="M66 73 Q79 67 91 70 T116 66 T141 61 T168 57 T195 51" fill="none" stroke="#b84932" stroke-linecap="round" stroke-width="5" />
+                      <path d="M82 62 C87 56 97 57 99 63 C102 70 92 73 86 70Z M126 56 C132 50 141 53 142 59 C143 65 134 68 129 64Z M171 50 C177 44 186 46 187 52 C188 58 178 61 173 57Z" fill="#fff0b5" stroke="#b84932" stroke-width="2" />
+                      <circle cx="111" cy="75" r="2.5" fill="#4d783f" />
+                      <circle cx="157" cy="65" r="2.5" fill="#4d783f" />
+                      <circle cx="197" cy="61" r="2.5" fill="#4d783f" />
+                    </g>
+                    <path d="M50 131 Q140 151 230 131" fill="none" stroke="#fffdf4" stroke-linecap="round" stroke-width="3" />
+                  </svg>
+                  <span class="lasagna-bite-pop" id="lasagna-bite-pop" aria-hidden="true" hidden>¡Ñam ñam!</span>
+                </span>
+              </button>
+              <p class="lasagna-status" id="lasagna-status" role="status" aria-live="polite">Toca la lasaña para darle un bocado. Quedan 5.</p>
+              <p class="lasagna-finished" id="lasagna-finished" role="status" aria-live="polite" hidden>¡Te la terminaste! 🍝😂 Pero tranquilo… todavía quedan más sorpresas.</p>
+            </div>
+            <button class="replay-action" id="play-again" type="button">Volver a jugar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const symbols = [
+        { id: "panda", icon: "🐼", label: "Panda" },
+        { id: "duck", icon: "🦆", label: "Pato" },
+        { id: "star", icon: "⭐", label: "Estrella" },
+        { id: "cake", icon: "🎂", label: "Pastel" },
+      ];
+      const solution = [
+        ["panda", "duck", "star", "cake"],
+        ["star", "cake", "panda", "duck"],
+        ["duck", "panda", "cake", "star"],
+        ["cake", "star", "duck", "panda"],
+      ];
+      const startingBoard = [
+        ["panda", "", "star", ""],
+        ["", "cake", "", "duck"],
+        ["duck", "", "cake", ""],
+        ["", "star", "", "panda"],
+      ];
+      const fixedCells = new Set();
+      startingBoard.forEach((row, rowIndex) => row.forEach((value, columnIndex) => {
+        if (value) fixedCells.add(rowIndex * 4 + columnIndex);
+      }));
+
+      let values = startingBoard.flat();
+      let results = Array(16).fill(null);
+      let selectedCell = null;
+      let gameWon = false;
+      const board = document.getElementById("sudoku-board");
+      const picker = document.getElementById("symbol-picker");
+      const pickerPrompt = document.getElementById("picker-prompt");
+      const feedback = document.getElementById("sudoku-feedback");
+      const checkButton = document.getElementById("check-sudoku");
+      const winPanel = document.getElementById("win-panel");
+      const lasagnaReward = document.getElementById("lasagna-reward");
+      const lasagnaButton = document.getElementById("lasagna-bite");
+      const lasagnaClip = document.getElementById("lasagna-clip");
+      const lasagnaStatus = document.getElementById("lasagna-status");
+      const lasagnaFinished = document.getElementById("lasagna-finished");
+      const bitePop = document.getElementById("lasagna-bite-pop");
+      let bitesRemaining = 5;
+      let biteAnimationTimer;
+
+      function resetLasagnaReward() {
+        bitesRemaining = 5;
+        lasagnaClip.setAttribute("width", "206");
+        lasagnaButton.disabled = false;
+        lasagnaButton.setAttribute("aria-label", "Comer un bocado de lasaña");
+        lasagnaStatus.hidden = false;
+        lasagnaStatus.textContent = "Toca la lasaña para darle un bocado. Quedan 5.";
+        lasagnaFinished.hidden = true;
+        bitePop.hidden = true;
+        bitePop.classList.remove("is-bouncing");
+      }
+
+      function playBiteAnimation() {
+        bitePop.hidden = false;
+        bitePop.classList.remove("is-bouncing");
+        void bitePop.offsetWidth;
+        bitePop.classList.add("is-bouncing");
+        window.clearTimeout(biteAnimationTimer);
+        biteAnimationTimer = window.setTimeout(() => {
+          bitePop.classList.remove("is-bouncing");
+          bitePop.hidden = true;
+        }, 820);
+      }
+
+      function renderBoard() {
+        board.replaceChildren();
+        values.forEach((value, index) => {
+          const row = Math.floor(index / 4);
+          const column = index % 4;
+          const cell = document.createElement("button");
+          const symbol = symbols.find((item) => item.id === value);
+          cell.type = "button";
+          cell.className = "sudoku-cell";
+          cell.dataset.index = String(index);
+          cell.setAttribute("aria-label", `Fila ${row + 1}, columna ${column + 1}: ${symbol ? symbol.label : "vacía"}`);
+          cell.textContent = symbol ? symbol.icon : "";
+          if (fixedCells.has(index)) {
+            cell.classList.add("is-given");
+            cell.disabled = true;
+          } else {
+            if (index === selectedCell) cell.classList.add("is-selected");
+            if (results[index] === "correct") cell.classList.add("is-correct");
+            if (results[index] === "incorrect") cell.classList.add("is-incorrect");
+            if (gameWon) cell.disabled = true;
+          }
+          if (column === 1) cell.classList.add("box-right");
+          if (row === 1) cell.classList.add("box-bottom");
+          board.append(cell);
+        });
+      }
+
+      board.addEventListener("click", (event) => {
+        const cell = event.target.closest(".sudoku-cell");
+        if (!cell || cell.disabled || gameWon) return;
+        selectedCell = Number(cell.dataset.index);
+        const row = Math.floor(selectedCell / 4) + 1;
+        const column = (selectedCell % 4) + 1;
+        pickerPrompt.textContent = `Fila ${row}, columna ${column}: elige un símbolo`;
+        picker.hidden = false;
+        renderBoard();
+      });
+
+      document.getElementById("symbol-options").addEventListener("click", (event) => {
+        const option = event.target.closest("[data-symbol]");
+        if (!option || selectedCell === null || gameWon) return;
+        values[selectedCell] = option.dataset.symbol;
+        results[selectedCell] = null;
+        selectedCell = null;
+        picker.hidden = true;
+        feedback.textContent = "";
+        renderBoard();
+      });
+
+      checkButton.addEventListener("click", () => {
+        let emptyCount = 0;
+        let incorrectCount = 0;
+        results = Array(16).fill(null);
+        values.forEach((value, index) => {
+          if (fixedCells.has(index)) return;
+          if (!value) {
+            emptyCount += 1;
+          } else if (value === solution[Math.floor(index / 4)][index % 4]) {
+            results[index] = "correct";
+          } else {
+            results[index] = "incorrect";
+            incorrectCount += 1;
+          }
+        });
+        renderBoard();
+
+        if (emptyCount > 0) {
+          feedback.textContent = incorrectCount > 0
+            ? `Hay ${incorrectCount} casillas incorrectas y ${emptyCount} vacías.`
+            : `¡Vas bien! Te faltan ${emptyCount} casillas.`;
+          return;
+        }
+        if (incorrectCount > 0) {
+          feedback.textContent = `Hay ${incorrectCount} casillas incorrectas. Prueba otra vez.`;
+          return;
+        }
+
+        gameWon = true;
+        selectedCell = null;
+        picker.hidden = true;
+        checkButton.hidden = true;
+        feedback.textContent = "¡Todas las respuestas son correctas!";
+        winPanel.hidden = false;
+        resetLasagnaReward();
+        lasagnaReward.hidden = false;
+        renderBoard();
+      });
+
+      lasagnaButton.addEventListener("click", () => {
+        if (bitesRemaining === 0) return;
+        bitesRemaining -= 1;
+        lasagnaClip.setAttribute("width", String(206 * bitesRemaining / 5));
+        playBiteAnimation();
+
+        if (bitesRemaining === 0) {
+          lasagnaButton.disabled = true;
+          lasagnaButton.setAttribute("aria-label", "La lasaña se terminó");
+          lasagnaStatus.hidden = true;
+          lasagnaFinished.hidden = false;
+          return;
+        }
+
+        lasagnaButton.setAttribute("aria-label", `Comer otro bocado de lasaña. Quedan ${bitesRemaining}`);
+        lasagnaStatus.textContent = `¡Ñam ñam! Quedan ${bitesRemaining} bocados.`;
+      });
+
+      document.getElementById("play-again").addEventListener("click", () => {
+        values = startingBoard.flat();
+        results = Array(16).fill(null);
+        selectedCell = null;
+        gameWon = false;
+        picker.hidden = true;
+        winPanel.hidden = true;
+        lasagnaReward.hidden = true;
+        resetLasagnaReward();
+        checkButton.hidden = false;
+        feedback.textContent = "";
+        renderBoard();
+      });
+
+      document.getElementById("launch-sudoku").addEventListener("click", () => {
+        document.getElementById("panda-duck-game").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      renderBoard();
+    })();
+  </script>
+</body>
+</html>
