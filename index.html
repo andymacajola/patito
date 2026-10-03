@@ -155,7 +155,10 @@
     .symbol-option:focus-visible,
     .sudoku-cell:focus-visible,
     .game-action:focus-visible,
-    .lasagna-bite:focus-visible {
+    .lasagna-bite:focus-visible,
+    .race-vehicle-choice:focus-visible,
+    .race-answer-input:focus-visible,
+    .race-code-input:focus-visible {
       outline: 3px solid #235b3a;
       outline-offset: 3px;
     }
@@ -195,6 +198,429 @@
     .coming-soon {
       font-size: 12px;
       font-weight: 700;
+    }
+
+    .race-section {
+      width: min(900px, 100%);
+      margin: clamp(44px, 9vh, 84px) auto 0;
+      padding: 30px 0 54px;
+      border-top: 2px solid rgba(35,91,58,.28);
+      scroll-margin-top: 20px;
+    }
+
+    .race-symbol-library {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .race-lead {
+      margin: 8px 0 18px;
+      color: var(--leaf-soft);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .race-vehicle-picker {
+      display: grid;
+      max-width: 680px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 0 auto;
+    }
+
+    .race-vehicle-choice {
+      --race-paint: #6b844a;
+      display: flex;
+      min-width: 0;
+      min-height: 170px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 16px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.34);
+      color: var(--leaf);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+    }
+
+    .race-vehicle-choice[data-race-vehicle="challenger"] { --race-paint: #c54c3c; }
+    .race-vehicle-choice:hover,
+    .race-vehicle-choice[aria-pressed="true"] { background: rgba(255,255,255,.72); box-shadow: 0 0 0 3px var(--purple-dark); }
+    .race-vehicle-choice svg { display: block; width: min(250px, 100%); height: auto; color: var(--race-paint); }
+    .race-vehicle-choice small { color: var(--leaf-soft); font-weight: 600; }
+
+    .race-characters {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 20px auto;
+    }
+
+    .race-character-card {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(73,54,81,.55);
+      border-radius: 8px;
+      background: rgba(255,255,255,.3);
+      text-align: left;
+    }
+
+    .race-character-icon {
+      flex: 0 0 auto;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .race-character-role { display: block; font-size: 12px; font-weight: 900; }
+    .race-character-line { margin: 3px 0 0; color: var(--leaf-soft); font-size: 13px; line-height: 1.35; }
+
+    .race-live { margin-top: 20px; }
+
+    .race-hud {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px 16px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .race-car-name { margin: 0; font-weight: 900; }
+    .race-progress-label { color: var(--leaf-soft); font-size: 13px; font-weight: 800; }
+
+    .race-progress {
+      width: 100%;
+      height: 14px;
+      grid-column: 1 / -1;
+      overflow: hidden;
+      border: 1px solid var(--purple-edge);
+      border-radius: 10px;
+      accent-color: var(--purple-dark);
+    }
+
+    .race-customization {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      margin: 16px auto 20px;
+      padding: 14px;
+      border: 1px solid rgba(73,54,81,.5);
+      border-radius: 8px;
+      background: rgba(255,255,255,.3);
+      text-align: left;
+    }
+
+    .race-customization legend,
+    .race-customization-label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 900; }
+    .race-color-options { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .race-color-choice {
+      width: 34px;
+      height: 34px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: var(--paint-color);
+      box-shadow: 0 0 0 1px var(--purple-edge);
+      cursor: pointer;
+    }
+
+    .race-color-choice[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--purple-dark); }
+
+    .race-customization select {
+      width: 100%;
+      min-height: 40px;
+      padding: 7px 9px;
+      border: 1px solid var(--purple-edge);
+      border-radius: 6px;
+      background: #fffdf5;
+      color: #302d2b;
+      font: inherit;
+    }
+
+    .race-canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 5;
+      border: 3px solid var(--purple-edge);
+      border-radius: 8px;
+      background: #b9e39a;
+      touch-action: none;
+    }
+
+    .race-live-status {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+      margin: 8px 0;
+      color: var(--leaf);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .race-upgrade {
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 1px solid var(--purple-edge);
+      border-radius: 6px;
+      background: #fff2b8;
+      color: #463b25;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .race-upgrade:disabled { cursor: not-allowed; opacity: .56; }
+
+    .race-drive-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0 18px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .race-dpad {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(48px, 68px));
+      grid-template-rows: repeat(2, 48px);
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .race-drive-button {
+      min-width: 48px;
+      min-height: 46px;
+      padding: 7px 11px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 7px;
+      background: rgba(255,255,255,.55);
+      color: var(--leaf);
+      cursor: pointer;
+      font: inherit;
+      font-size: 17px;
+      font-weight: 900;
+      touch-action: none;
+    }
+
+    .race-drive-button:active,
+    .race-drive-button.is-pressed { background: #f4d66d; transform: translateY(1px); }
+    .race-control-left { grid-column: 1; grid-row: 2; }
+    .race-control-up { grid-column: 2; grid-row: 1; }
+    .race-control-down { grid-column: 2; grid-row: 2; }
+    .race-control-right { grid-column: 3; grid-row: 2; }
+
+    .race-throttle-controls { display: flex; flex-direction: column; gap: 7px; }
+    .race-throttle-controls .race-drive-button { min-width: 106px; }
+
+    .race-route-panel {
+      margin-top: 14px;
+      padding: 16px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.38);
+      text-align: center;
+    }
+
+    .race-route-panel h3 { margin: 0 0 6px; }
+    .race-route-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+    .race-route-choice { min-height: 76px; padding: 10px; border: 1px solid var(--purple-edge); border-radius: 7px; background: rgba(255,255,255,.58); color: var(--leaf); cursor: pointer; font: inherit; font-weight: 800; }
+    .race-route-choice small { display: block; margin-top: 4px; color: var(--leaf-soft); font-weight: 600; }
+    .race-clues { margin: 6px 0; font-size: 12px; font-weight: 800; }
+
+    .race-track {
+      position: relative;
+      overflow: hidden;
+      padding: 12px 0;
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: #b9e39a;
+    }
+
+    .race-track::before,
+    .race-track::after {
+      position: absolute;
+      right: 0;
+      left: 0;
+      height: 8px;
+      background: repeating-linear-gradient(90deg, #f4e4a3 0 22px, #fff 22px 42px);
+      content: "";
+    }
+
+    .race-track::before { top: 0; }
+    .race-track::after { bottom: 0; }
+
+    .race-lane {
+      position: relative;
+      height: 68px;
+      overflow: hidden;
+      background: #484750;
+    }
+
+    .race-lane + .race-lane { border-top: 2px dashed rgba(255,255,255,.76); }
+
+    .race-lane-marking {
+      position: absolute;
+      top: calc(50% - 1px);
+      right: 0;
+      left: 0;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, rgba(255,255,255,.74) 0 18px, transparent 18px 34px);
+    }
+
+    .race-lane.is-moving .race-lane-marking { animation: lane-scroll 360ms linear infinite; }
+
+    .race-car-sprite {
+      position: absolute;
+      z-index: 2;
+      top: 6px;
+      left: var(--car-position, 4%);
+      width: clamp(86px, 20vw, 122px);
+      height: 55px;
+      transition: left 620ms cubic-bezier(.18,.8,.28,1);
+      filter: drop-shadow(0 3px 2px rgba(0,0,0,.35));
+    }
+
+    .race-car-sprite.is-player { filter: drop-shadow(0 0 6px #ffe273) drop-shadow(0 3px 2px rgba(0,0,0,.4)); }
+    .race-car-sprite svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .race-wheel { transform-box: fill-box; transform-origin: center; }
+    .race-car-sprite.is-moving .race-wheel { animation: wheel-spin 300ms linear infinite; }
+
+    .race-obstacle {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 61%;
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 2px solid #4d392d;
+      border-radius: 50%;
+      background: #ffe69a;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      font-size: 23px;
+      line-height: 1;
+      transform: translate(-50%, -50%);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .race-obstacle.is-cleared { opacity: 0; transform: translate(40px, -50%) scale(.4); }
+
+    .race-commentary {
+      margin: 12px 0;
+      color: var(--leaf);
+      font-weight: 800;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .race-math-panel,
+    .race-code-panel,
+    .race-finish {
+      margin-top: 14px;
+      padding: clamp(14px, 3vw, 22px);
+      border: 2px solid var(--purple-edge);
+      border-radius: 8px;
+      background: rgba(255,255,255,.36);
+      text-align: center;
+    }
+
+    .race-challenge-name { margin: 0 0 6px; color: var(--leaf-soft); font-size: 13px; font-weight: 900; text-transform: uppercase; }
+    .race-question { margin: 0 0 14px; font-size: clamp(20px, 4vw, 26px); font-weight: 900; }
+
+    .race-answer-form,
+    .race-code-form {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .race-answer-input,
+    .race-code-input {
+      width: min(180px, 58vw);
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 2px solid var(--purple-edge);
+      border-radius: 7px;
+      background: #fffdf5;
+      color: #302d2b;
+      font: inherit;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .race-answer-feedback { min-height: 24px; margin: 10px 0 0; color: var(--leaf); font-weight: 800; }
+
+    .race-finish {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,.46);
+    }
+
+    .race-finish h3 { position: relative; z-index: 1; margin: 4px 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(24px, 5vw, 34px); }
+    .race-finish p { position: relative; z-index: 1; margin: 0; font-weight: 700; }
+
+    .race-firework {
+      position: absolute;
+      top: 38px;
+      left: 18%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffd82f;
+      box-shadow: 0 -24px #f26475, 17px -17px #5b9bd5, 24px 0 #ffd82f, 17px 17px #69a877, 0 24px #f26475, -17px 17px #a779c5, -24px 0 #69a877, -17px -17px #ffd82f;
+      animation: firework-pop 1.2s ease-out infinite;
+    }
+
+    .race-firework.is-second { top: auto; right: 18%; bottom: 24px; left: auto; animation-delay: 420ms; }
+
+    .race-confetti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+
+    .race-confetti span {
+      position: absolute;
+      top: -12px;
+      left: var(--confetti-x);
+      width: 7px;
+      height: 12px;
+      border-radius: 2px;
+      background: var(--confetti-color);
+      animation: confetti-fall 2.2s var(--confetti-delay) ease-in infinite;
+      transform: rotate(var(--confetti-rotation));
+    }
+
+    @keyframes lane-scroll {
+      to { background-position-x: -34px; }
+    }
+
+    @keyframes wheel-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes firework-pop {
+      0%, 100% { opacity: .35; transform: scale(.55); }
+      45% { opacity: 1; transform: scale(1.05); }
+    }
+
+    @keyframes confetti-fall {
+      to { transform: translateY(240px) rotate(520deg); }
     }
 
     .sudoku-section {
@@ -434,6 +860,18 @@
       .sudoku-controls { text-align: center; }
       .symbol-options { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .symbol-option { min-height: 58px; flex-direction: column; justify-content: center; gap: 3px; padding: 6px 3px; font-size: 12px; text-align: center; }
+      .race-vehicle-picker { grid-template-columns: minmax(0, 1fr); }
+      .race-vehicle-choice { min-height: 145px; }
+      .race-characters { grid-template-columns: minmax(0, 1fr); }
+      .race-customization { grid-template-columns: minmax(0, 1fr); }
+      .race-lane { height: 58px; }
+      .race-car-sprite { top: 4px; width: clamp(78px, 26vw, 100px); height: 48px; }
+      .race-obstacle { width: 36px; height: 36px; font-size: 20px; }
+      .race-hud { gap: 6px 8px; }
+      .race-drive-controls { grid-template-columns: minmax(0, 1fr); }
+      .race-throttle-controls { flex-direction: row; justify-content: center; }
+      .race-throttle-controls .race-drive-button { min-width: 112px; }
+      .race-route-options { grid-template-columns: minmax(0, 1fr); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -539,10 +977,10 @@
           <span class="game-title">El reto del Panda y el Pato</span>
           <span class="game-action">Jugar</span>
         </button>
-        <button class="game-launcher" type="button" disabled>
-          <span class="game-art" aria-hidden="true">🃏</span>
-          <span class="game-title">Memoria de cumpleaños</span>
-          <span class="coming-soon">Próximamente</span>
+        <button class="game-launcher" id="launch-race" type="button" aria-controls="birthday-race">
+          <span class="game-art" aria-hidden="true">🚙🏎️</span>
+          <span class="game-title">Jeep vs. Challenger</span>
+          <span class="game-action">Jugar</span>
         </button>
         <button class="game-launcher" type="button" disabled>
           <span class="game-art" aria-hidden="true">🎁</span>
@@ -617,6 +1055,145 @@
             </div>
             <button class="replay-action" id="play-again" type="button">Volver a jugar</button>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="race-section" id="birthday-race" aria-labelledby="race-heading" hidden>
+      <svg class="race-symbol-library" aria-hidden="true" focusable="false">
+        <symbol id="race-jeep-symbol" viewBox="0 0 280 120">
+          <path d="M25 78 L35 51 Q38 45 52 45 H65 V29 Q65 22 73 22 H156 Q165 22 172 30 L193 53 L229 58 Q244 60 250 73 L253 89 H23Z" fill="currentColor" stroke="#263328" stroke-linejoin="round" stroke-width="6" />
+          <path d="M78 29 H108 V50 H72 V35 Q72 29 78 29Z M117 29 H151 Q157 29 163 36 L177 51 H117Z" fill="#b9d5d0" stroke="#263328" stroke-linejoin="round" stroke-width="4" />
+          <path d="M111 29 V79 M180 55 L181 79 M37 61 H57 M214 59 L239 65" fill="none" stroke="#263328" stroke-width="4" />
+          <circle cx="239" cy="72" r="6" fill="#ffe98a" stroke="#263328" stroke-width="3" />
+          <path d="M226 70 V84 M232 68 V84 M238 70 V84 M244 73 V84" stroke="#263328" stroke-width="3" />
+          <circle cx="31" cy="68" r="14" fill="#35343a" stroke="#263328" stroke-width="4" />
+          <circle cx="31" cy="68" r="8" fill="#73727a" stroke="#263328" stroke-width="3" />
+          <g class="race-wheel"><circle cx="78" cy="87" r="20" fill="#29282e" stroke="#17171a" stroke-width="4" /><circle cx="78" cy="87" r="9" fill="#c3c4c0" stroke="#17171a" stroke-width="3" /><path d="M78 79 V95 M70 87 H86" stroke="#626268" stroke-width="3" /></g>
+          <g class="race-wheel"><circle cx="198" cy="87" r="20" fill="#29282e" stroke="#17171a" stroke-width="4" /><circle cx="198" cy="87" r="9" fill="#c3c4c0" stroke="#17171a" stroke-width="3" /><path d="M198 79 V95 M190 87 H206" stroke="#626268" stroke-width="3" /></g>
+        </symbol>
+        <symbol id="race-challenger-symbol" viewBox="0 0 280 120">
+          <path d="M22 78 L37 64 Q49 57 83 55 L105 35 Q111 29 126 29 H164 Q177 29 188 41 L205 57 L237 62 Q250 65 255 77 L256 89 H21Z" fill="currentColor" stroke="#401f27" stroke-linejoin="round" stroke-width="6" />
+          <path d="M92 55 L111 38 Q116 34 127 34 H142 V55Z M150 34 H163 Q173 34 182 44 L193 55 H150Z" fill="#bed8d6" stroke="#401f27" stroke-linejoin="round" stroke-width="4" />
+          <path d="M145 34 V78 M105 61 H183 M28 75 H55" fill="none" stroke="#401f27" stroke-width="4" />
+          <path d="M223 66 H246 Q250 68 250 73 V77 H220Z" fill="#ffe28a" stroke="#401f27" stroke-width="3" />
+          <path d="M211 61 L236 62" stroke="#f0b05e" stroke-width="3" />
+          <g class="race-wheel"><circle cx="76" cy="87" r="19" fill="#29282e" stroke="#17171a" stroke-width="4" /><circle cx="76" cy="87" r="9" fill="#c3c4c0" stroke="#17171a" stroke-width="3" /><path d="M76 79 V95 M68 87 H84" stroke="#626268" stroke-width="3" /></g>
+          <g class="race-wheel"><circle cx="202" cy="87" r="19" fill="#29282e" stroke="#17171a" stroke-width="4" /><circle cx="202" cy="87" r="9" fill="#c3c4c0" stroke="#17171a" stroke-width="3" /><path d="M202 79 V95 M194 87 H210" stroke="#626268" stroke-width="3" /></g>
+        </symbol>
+      </svg>
+
+      <h2 class="section-title" id="race-heading">¡Rally de cumpleaños!</h2>
+      <p class="race-lead" id="race-lead">Elige quién va al volante para empezar la carrera.</p>
+
+      <div class="race-characters">
+        <div class="race-character-card">
+          <span class="race-character-icon" aria-hidden="true">🐼</span>
+          <div><span class="race-character-role">Mecánico Panda</span><p class="race-character-line" id="race-mechanic-line">Tengo las herramientas listas. ¿Cuál coche revisamos?</p></div>
+        </div>
+        <div class="race-character-card">
+          <span class="race-character-icon" aria-hidden="true">🦆</span>
+          <div><span class="race-character-role">Comentarista Pato</span><p class="race-character-line" id="race-duck-line">¡En la pista todo puede pasar!</p></div>
+        </div>
+      </div>
+
+      <div class="race-customization" id="race-customization">
+        <div>
+          <span class="race-customization-label">Color del vehículo</span>
+          <div class="race-color-options" role="group" aria-label="Elegir color del vehículo">
+            <button class="race-color-choice" type="button" data-race-paint="#6b844a" style="--paint-color:#6b844a" aria-label="Verde" aria-pressed="true"></button>
+            <button class="race-color-choice" type="button" data-race-paint="#c54c3c" style="--paint-color:#c54c3c" aria-label="Rojo" aria-pressed="false"></button>
+            <button class="race-color-choice" type="button" data-race-paint="#d7d6d1" style="--paint-color:#d7d6d1" aria-label="Plata" aria-pressed="false"></button>
+            <button class="race-color-choice" type="button" data-race-paint="#414f72" style="--paint-color:#414f72" aria-label="Azul" aria-pressed="false"></button>
+          </div>
+        </div>
+        <label><span class="race-customization-label">Neumáticos</span>
+          <select id="race-tires"><option value="street">Deportivos</option><option value="all-terrain">Todo terreno</option></select>
+        </label>
+        <label><span class="race-customization-label">Accesorio</span>
+          <select id="race-accessory"><option value="none">Sin accesorio</option><option value="roof">Parrilla de techo</option><option value="spoiler">Alerón</option></select>
+        </label>
+      </div>
+
+      <div class="race-vehicle-picker" id="race-vehicle-picker">
+        <button class="race-vehicle-choice" type="button" data-race-vehicle="jeep" aria-label="Elegir Jeep" aria-pressed="false">
+          <svg viewBox="0 0 280 120" role="img" aria-label="Jeep verde"><use href="#race-jeep-symbol" /></svg>
+          Jeep
+          <small>Fuerte para cualquier camino</small>
+        </button>
+        <button class="race-vehicle-choice" type="button" data-race-vehicle="challenger" aria-label="Elegir Dodge Challenger" aria-pressed="false">
+          <svg viewBox="0 0 280 120" role="img" aria-label="Dodge Challenger rojo"><use href="#race-challenger-symbol" /></svg>
+          Dodge Challenger
+          <small>Rápido y listo para correr</small>
+        </button>
+      </div>
+      <p class="race-lead" id="race-vehicle-stats">Jeep: gran tracción · Challenger: más velocidad.</p>
+
+      <div class="race-live" id="race-live" hidden>
+        <div class="race-hud">
+          <p class="race-car-name" id="race-car-name">Tu coche</p>
+          <span class="race-progress-label" id="race-progress-label">0% · SALIDA</span>
+          <progress class="race-progress" id="race-progress" max="100" value="0" aria-label="Progreso de la carrera"></progress>
+        </div>
+        <canvas class="race-canvas" id="race-canvas" width="900" height="500" aria-label="Pista interactiva. Conduce con flechas, WASD o los controles táctiles.">Pista de carreras interactiva.</canvas>
+        <div class="race-live-status">
+          <span id="race-zone">Zona: Autopista</span>
+          <span id="race-speed">0 km/h</span>
+          <span id="race-coins">🪙 0</span>
+          <span id="race-clues" class="race-clues">Pistas: —</span>
+          <button class="race-upgrade" id="race-upgrade" type="button" disabled>Turbo · 5 monedas</button>
+        </div>
+        <div class="race-drive-controls" aria-label="Controles táctiles de conducción">
+          <div class="race-dpad">
+            <button class="race-drive-button race-control-left" type="button" data-race-control="left" aria-label="Girar a la izquierda">◀</button>
+            <button class="race-drive-button race-control-up" type="button" data-race-control="up" aria-label="Acelerar hacia delante">▲</button>
+            <button class="race-drive-button race-control-down" type="button" data-race-control="down" aria-label="Frenar o retroceder">▼</button>
+            <button class="race-drive-button race-control-right" type="button" data-race-control="right" aria-label="Girar a la derecha">▶</button>
+          </div>
+          <div class="race-throttle-controls">
+            <button class="race-drive-button" type="button" data-race-control="accelerate">🚀 Gas</button>
+            <button class="race-drive-button" type="button" data-race-control="brake">Freno</button>
+          </div>
+        </div>
+        <p class="race-intro-note">Mantén pulsadas las flechas o usa WASD. En teléfono, mantén presionados los controles.</p>
+        <p class="race-commentary" id="race-commentary" role="status" aria-live="polite"></p>
+
+        <div class="race-route-panel" id="race-route-panel" hidden>
+          <h3>¡Bifurcación adelante!</h3>
+          <p>Elige tu ruta. La corta exige más; la larga es más segura y tiene monedas.</p>
+          <div class="race-route-options">
+            <button class="race-route-choice" type="button" data-race-route="short">⚡ Atajo corto<small>Acertijo difícil · más avance</small></button>
+            <button class="race-route-choice" type="button" data-race-route="long">🛣️ Ruta panorámica<small>Más larga · obstáculos y monedas extra</small></button>
+          </div>
+        </div>
+
+        <form class="race-math-panel" id="race-answer-form">
+          <p class="race-challenge-name" id="race-challenge-name">Arranque</p>
+          <label class="race-question" id="race-question" for="race-answer">Resuelve la operación para arrancar</label>
+          <div class="race-answer-form">
+            <input class="race-answer-input" id="race-answer" type="text" inputmode="numeric" autocomplete="off" aria-describedby="race-answer-feedback" required>
+            <button class="primary-action" type="submit">Responder</button>
+          </div>
+          <p class="race-answer-feedback" id="race-answer-feedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <form class="race-code-panel" id="race-code-form" hidden>
+          <p class="race-challenge-name">Código de la meta</p>
+          <p class="race-question" id="race-code-prompt">Introduce el código secreto.</p>
+          <div class="race-code-form">
+            <input class="race-code-input" id="race-code" type="text" autocomplete="off" autocapitalize="characters" aria-describedby="race-code-feedback" required>
+            <button class="primary-action" type="submit">Desbloquear meta</button>
+          </div>
+          <p class="race-answer-feedback" id="race-code-feedback" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="race-finish" id="race-finish" hidden>
+          <span class="race-firework" aria-hidden="true"></span>
+          <span class="race-firework is-second" aria-hidden="true"></span>
+          <div class="race-confetti" id="race-confetti" aria-hidden="true"></div>
+          <h3>¡Lo lograste bien patoooo! 🏁</h3>
+          <p>¡Carrera completada! El panda y el pato celebran contigo.</p>
+          <button class="replay-action" id="race-restart" type="button">Otra carrera</button>
         </div>
       </div>
     </section>
@@ -813,8 +1390,235 @@
         document.getElementById("panda-duck-game").scrollIntoView({ behavior: "smooth", block: "start" });
       });
 
+      if (false) {
+      const raceSection = document.getElementById("birthday-race");
+      const raceVehiclePicker = document.getElementById("race-vehicle-picker");
+      const raceLive = document.getElementById("race-live");
+      const raceAnswerForm = document.getElementById("race-answer-form");
+      const raceAnswer = document.getElementById("race-answer");
+      const raceAnswerFeedback = document.getElementById("race-answer-feedback");
+      const raceCodeForm = document.getElementById("race-code-form");
+      const raceCode = document.getElementById("race-code");
+      const raceCodePrompt = document.getElementById("race-code-prompt");
+      const raceCodeFeedback = document.getElementById("race-code-feedback");
+      const raceFinish = document.getElementById("race-finish");
+      const raceProgress = document.getElementById("race-progress");
+      const raceProgressLabel = document.getElementById("race-progress-label");
+      const raceCarName = document.getElementById("race-car-name");
+      const raceCommentary = document.getElementById("race-commentary");
+      const raceMechanicLine = document.getElementById("race-mechanic-line");
+      const raceDuckLine = document.getElementById("race-duck-line");
+      const raceChallengeName = document.getElementById("race-challenge-name");
+      const raceQuestion = document.getElementById("race-question");
+      const raceObstacle = document.getElementById("race-obstacle");
+      const jeepCar = document.getElementById("race-jeep-car");
+      const challengerCar = document.getElementById("race-challenger-car");
+      const jeepLane = document.getElementById("race-jeep-lane");
+      const challengerLane = document.getElementById("race-challenger-lane");
+      const raceConfetti = document.getElementById("race-confetti");
+      const raceLead = document.getElementById("race-lead");
+      const ignitionChallenge = {
+        name: "Encendido",
+        prompt: "Para arrancar el motor: 6 + 7 = ?",
+        answer: "13",
+        hint: "Pista del panda: suma 6 + 6 y agrega 1.",
+      };
+      const raceChallenges = [
+        { name: "Conos en la pista", obstacle: "🚧", prompt: "Hay 8 conos y el panda coloca 5 más. ¿Cuántos hay?", answer: "13", hint: "Pista: cuenta 8 y avanza cinco lugares." },
+        { name: "Curva cerrada", obstacle: "↪️", prompt: "El tablero marca 18 y gastas 9. ¿Cuánto queda?", answer: "9", hint: "Pista: 9 + 9 = 18." },
+        { name: "Puente veloz", obstacle: "🌉", prompt: "Cuatro ruedas por coche y tres coches. ¿Cuántas ruedas?", answer: "12", hint: "Pista: suma 4 tres veces." },
+        { name: "Túnel numérico", obstacle: "🚇", prompt: "Completa la secuencia: 3, 6, 9, __", answer: "12", hint: "Pista: cada número aumenta de 3 en 3." },
+      ];
+      const finalRaceChallenge = {
+        name: "Operación de la meta",
+        prompt: "Última operación: 9 + 8 = ?",
+        answer: "17",
+        hint: "Pista del panda: 9 + 9 sería 18. Quita 1.",
+      };
+      let selectedRaceVehicle = null;
+      let racePhase = "choose";
+      let raceChallengeIndex = 0;
+
+      function setRaceComments(mechanic, duck) {
+        raceMechanicLine.textContent = mechanic;
+        raceDuckLine.textContent = duck;
+      }
+
+      function setRaceProgress(value, label) {
+        const boundedProgress = Math.max(0, Math.min(100, value));
+        raceProgress.value = boundedProgress;
+        raceProgressLabel.textContent = `${boundedProgress}% · ${label}`;
+        const playerPosition = 4 + boundedProgress * .55;
+        const rivalPosition = 4 + Math.max(0, boundedProgress - 9) * .55;
+        jeepCar.style.setProperty("--car-position", `${selectedRaceVehicle === "jeep" ? playerPosition : rivalPosition}%`);
+        challengerCar.style.setProperty("--car-position", `${selectedRaceVehicle === "challenger" ? playerPosition : rivalPosition}%`);
+      }
+
+      function setObstacle(icon, label) {
+        raceObstacle.textContent = icon;
+        raceObstacle.setAttribute("aria-label", label);
+        raceObstacle.classList.remove("is-cleared");
+      }
+
+      function showRaceQuestion(question, phase) {
+        racePhase = phase;
+        raceChallengeName.textContent = question.name;
+        raceQuestion.textContent = question.prompt;
+        raceAnswer.value = "";
+        raceAnswerFeedback.textContent = "";
+        raceAnswerForm.hidden = false;
+        raceCodeForm.hidden = true;
+      }
+
+      function startChosenRace(vehicle) {
+        selectedRaceVehicle = vehicle;
+        raceVehiclePicker.hidden = true;
+        raceLive.hidden = false;
+        raceFinish.hidden = true;
+        raceChallengeIndex = 0;
+        const chosenName = vehicle === "jeep" ? "Jeep" : "Dodge Challenger";
+        raceCarName.textContent = `Tú conduces: ${chosenName}`;
+        jeepCar.classList.toggle("is-player", vehicle === "jeep");
+        challengerCar.classList.toggle("is-player", vehicle === "challenger");
+        jeepCar.classList.remove("is-moving");
+        challengerCar.classList.remove("is-moving");
+        jeepLane.classList.remove("is-moving");
+        challengerLane.classList.remove("is-moving");
+        setRaceProgress(0, "SALIDA");
+        setObstacle("🔑", "Llave de encendido");
+        setRaceComments(`Mecánico Panda: ${chosenName} revisado. ¡Motor listo!`, "Comentarista Pato: ¡A ver quién arranca primero, patooo!");
+        showRaceQuestion(ignitionChallenge, "ignition");
+      }
+
+      function beginRace() {
+        racePhase = "race";
+        jeepCar.classList.add("is-moving");
+        challengerCar.classList.add("is-moving");
+        jeepLane.classList.add("is-moving");
+        challengerLane.classList.add("is-moving");
+        setRaceProgress(10, "¡ARRANCAMOS!");
+        raceChallengeIndex = 0;
+        setObstacle(raceChallenges[0].obstacle, "Obstáculo: conos");
+        setRaceComments("Mecánico Panda: ¡Motor encendido y ruedas listas!", "Comentarista Pato: ¡Comienza la carrera, cuac-cuac!");
+        showRaceQuestion(raceChallenges[0], "race");
+      }
+
+      function celebrateRace() {
+        racePhase = "won";
+        setRaceProgress(100, "META");
+        raceCodeForm.hidden = true;
+        raceFinish.hidden = false;
+        raceConfetti.replaceChildren();
+        const confettiColors = ["#f26475", "#ffd82f", "#5b9bd5", "#69a877", "#a779c5"];
+        for (let index = 0; index < 36; index += 1) {
+          const piece = document.createElement("span");
+          piece.style.setProperty("--confetti-x", `${(index * 47) % 100}%`);
+          piece.style.setProperty("--confetti-color", confettiColors[index % confettiColors.length]);
+          piece.style.setProperty("--confetti-delay", `${(index % 9) * 85}ms`);
+          piece.style.setProperty("--confetti-rotation", `${(index * 31) % 180}deg`);
+          raceConfetti.append(piece);
+        }
+        setRaceComments("Mecánico Panda: ¡Trabajo perfecto, campeona!", "Comentarista Pato: ¡Lo lograste bien patoooo! ¡Qué carrerón!");
+      }
+
+      document.getElementById("launch-race").addEventListener("click", () => {
+        raceSection.hidden = false;
+        raceSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      raceVehiclePicker.addEventListener("click", (event) => {
+        const choice = event.target.closest("[data-race-vehicle]");
+        if (!choice) return;
+        startChosenRace(choice.dataset.raceVehicle);
+      });
+
+      raceAnswerForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const question = racePhase === "ignition"
+          ? ignitionChallenge
+          : racePhase === "final-math"
+            ? finalRaceChallenge
+            : raceChallenges[raceChallengeIndex];
+        if (raceAnswer.value.trim() !== question.answer) {
+          raceAnswerFeedback.textContent = `${question.hint} Inténtalo otra vez.`;
+          raceDuckLine.textContent = "Comentarista Pato: ¡No te rindas! El coche espera tu respuesta.";
+          raceAnswer.select();
+          return;
+        }
+
+        raceObstacle.classList.add("is-cleared");
+        raceAnswerFeedback.textContent = "¡Correcto! Los coches avanzan.";
+
+        if (racePhase === "ignition") {
+          beginRace();
+          return;
+        }
+
+        if (racePhase === "race") {
+          raceChallengeIndex += 1;
+          setRaceProgress(10 + raceChallengeIndex * 17, "EN CARRERA");
+          if (raceChallengeIndex < raceChallenges.length) {
+            const challenge = raceChallenges[raceChallengeIndex];
+            setObstacle(challenge.obstacle, `Obstáculo: ${challenge.name}`);
+            setRaceComments(`Mecánico Panda: ${challenge.hint}`, `Comentarista Pato: ¡${challenge.name} superado!`);
+            showRaceQuestion(challenge, "race");
+          } else {
+            setRaceProgress(82, "RECTA FINAL");
+            setObstacle("🏁", "Reto final de la meta");
+            setRaceComments("Mecánico Panda: Ya casi llegamos. ¡Último cálculo!", "Comentarista Pato: ¡La meta está a la vista!");
+            showRaceQuestion(finalRaceChallenge, "final-math");
+          }
+          return;
+        }
+
+        if (racePhase === "final-math") {
+          setRaceProgress(91, "DESBLOQUEO DE META");
+          raceAnswerForm.hidden = true;
+          raceCodeForm.hidden = false;
+          raceCodePrompt.textContent = "La respuesta fue 17. El código secreto es PATO17. Escríbelo para cruzar la meta.";
+          raceCodeFeedback.textContent = "";
+          racePhase = "code";
+          raceCode.value = "";
+          setRaceComments("Mecánico Panda: Código listo. ¡Introdúcelo con cuidado!", "Comentarista Pato: ¡Una clave más y ganamos!");
+          raceCode.focus();
+        }
+      });
+
+      raceCodeForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (raceCode.value.trim().toUpperCase().replace(/\s+/g, "") === "PATO17") {
+          celebrateRace();
+        } else {
+          raceCodeFeedback.textContent = "Ese código no abre la meta. Pista del panda: empieza con PATO.";
+          raceCode.select();
+          raceDuckLine.textContent = "Comentarista Pato: ¡Prueba otra vez, la bandera ya se ve!";
+        }
+      });
+
+      document.getElementById("race-restart").addEventListener("click", () => {
+        racePhase = "choose";
+        selectedRaceVehicle = null;
+        raceChallengeIndex = 0;
+        raceVehiclePicker.hidden = false;
+        raceLive.hidden = true;
+        raceFinish.hidden = true;
+        raceAnswerForm.hidden = false;
+        raceCodeForm.hidden = true;
+        raceCode.value = "";
+        raceCodeFeedback.textContent = "";
+        raceAnswerFeedback.textContent = "";
+        jeepCar.classList.remove("is-moving", "is-player");
+        challengerCar.classList.remove("is-moving", "is-player");
+        jeepLane.classList.remove("is-moving");
+        challengerLane.classList.remove("is-moving");
+        setRaceProgress(0, "SALIDA");
+        setRaceComments("Tengo las herramientas listas. ¿Cuál coche revisamos?", "¡En la pista todo puede pasar!");
+      });
+      }
+
       renderBoard();
     })();
   </script>
+  <script src="race-game.js"></script>
 </body>
 </html>
